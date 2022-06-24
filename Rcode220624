@@ -1,0 +1,186 @@
+#-----------------------------------------------------------------------------------------
+# R CODE for "Urban agriculture sustains health and well-being of neighborhood communities in the context of the COVID-19 outbreak"
+#-----------------------------------------------------------------------------------------
+
+# Start by putting directory
+setwd("...file path...")
+
+# Load the following packages
+library(MASS); library(car); library(tidyverse); library(ggpubr); library(MuMIn); options(na.action = "na.fail"); library(summarytools)
+
+# Setting up data frame. 
+d <- read.csv("...file path...", header=TRUE, sep = ",", stringsAsFactors=FALSE)
+
+# Study population data that was used for statistical analyses are not publicly available. Only those who have registered as co-researchers in the research ethical approval can handle the data. To request access to the data, contact the corresponding author, A.I.
+
+# Calculating Pearson’s correlation coefficients
+cor(cbind(d))
+
+# Setting variable types
+d <- data.frame(lapply(d, as.factor)); d$fsnow <- as.ordered(d$fsnow); d$fsfuture <- as.ordered(d$fsfuture)
+
+# Summary Statistics (Supplementary Table 3)
+dfSummary(d)
+
+#-----------------------------------------------------------------------------------------
+
+# Regression analyses
+model1a <- glm(mh ~ allotment + garden + farmstand + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist, data = d, family=binomial); summary(model1a)
+model1b <- glm(mh ~ smallpark + largepark + greenway + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist,data = d, family=binomial); summary(model1b)
+model1c <- glm(mh ~ allotment + largepark + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist,data = d, family=binomial); summary(model1c)
+model1d <- glm(mh ~ garden + largepark + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist,data = d, family=binomial); summary(model1d)
+model1e <- glm(mh ~ farmstand + largepark + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist,data = d, family=binomial); summary(model1e)
+
+model2a <- glm(pa ~ allotment + garden + farmstand + sex + older + single + youngchild + workhome + notwork + lowincome + house+ farmexist,data = d, family=binomial); summary(model2a)
+model2b <- glm(pa ~ smallpark + largepark + greenway + sex + older + single + youngchild + workhome + notwork + lowincome + house+ farmexist,data = d, family=binomial); summary(model2b)
+model2c <- glm(pa ~ allotment + greenway + sex + older + single + youngchild + workhome + notwork + lowincome + house+ farmexist,data = d, family=binomial); summary(model2c)
+model2d <- glm(pa ~ garden + greenway + sex + older + single + youngchild + workhome + notwork + lowincome + house+ farmexist,data = d, family=binomial); summary(model2d)
+model2e <- glm(pa ~ farmstand + greenway + sex + older + single + youngchild + workhome + notwork + lowincome + house+ farmexist,data = d, family=binomial); summary(model2e)
+
+model3a <- polr(fsnow ~ allotment + garden + farmstand + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist, data = d, method = c("logistic")); summary(model3a)
+model3b <- polr(fsnow ~ grocery + convenience + coop + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist, data = d, method = c("logistic")); summary(model3b)
+model3c <- polr(fsnow ~ allotment + grocery + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist,data = d, method = c("logistic")); summary(model3c)
+model3d <- polr(fsnow ~ garden + grocery + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist,data = d, method = c("logistic")); summary(model3d)
+model4e <- polr(fsfuture ~ farmstand + convenience + sex + older + single + youngchild + workhome + notwork + lowincome + house+ farmexist,data = d, method = c("logistic")); summary(model3e)
+
+model4a <- polr(fsfuture ~ allotment + garden + farmstand + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist, data = d, method = c("logistic")); summary(model4a)
+model4b <- polr(fsfuture ~grocery + convenience + coop + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist, data = d, method = c("logistic")); summary(model4b)
+model4c <- polr(fsfuture ~ allotment + convenience + sex + older + single + youngchild + workhome + notwork + lowincome + house+ farmexist,data = d, method = c("logistic")); summary(model4c)
+model4d <- polr(fsfuture ~ garden + convenience + sex + older + single + youngchild + workhome + notwork + lowincome + house+ farmexist,data = d, method = c("logistic")); summary(model4d)
+model4e <- polr(fsnow ~ farmstand + grocery + sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist,data = d, method = c("logistic")); summary(model4e)
+
+model5a <- glm(allotment ~ sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist, data = d, family=binomial); summary(model5a)
+model5b <- glm(garden ~ sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist, data = d, family=binomial); summary(model5b)
+model5c <- glm(farmstand ~ sex + older + single + youngchild + workhome + notwork + lowincome + house + farmexist, data = d, family=binomial); summary(model5c)
+
+#-----------------------------------------------------------------------------------------
+
+# Calculating AIC
+AIC(model1a)
+AIC(model1b)
+AIC(model1c)
+AIC(model1d)
+AIC(model1e)
+
+AIC(model2a)
+AIC(model2b)
+AIC(model2c)
+AIC(model2d)
+AIC(model2e)
+
+AIC(model3a) 
+AIC(model3b)
+AIC(model3c)
+AIC(model3d)
+AIC(model3e)
+
+AIC(model4a)
+AIC(model4b)
+AIC(model4c)
+AIC(model4d)
+AIC(model4e)
+
+AIC(model5a)
+AIC(model5b)
+AIC(model5c)
+
+#-----------------------------------------------------------------------------------------
+
+# Calculating VIF
+vif(model1a)
+vif(model1b)
+vif(model1c)
+vif(model1d)
+vif(model1e)
+
+vif(model2a)
+vif(model2b)
+vif(model2c)
+vif(model2d)
+vif(model2e)
+
+vif(model5a)
+vif(model5b)
+vif(model5c)
+
+#-----------------------------------------------------------------------------------------
+
+# Subset modeling
+avg.model1a <-model.avg(get.models(dredge(model1a,rank="AIC"), subset = delta < 2)); summary(avg.model1a)
+avg.model1b <-model.avg(get.models(dredge(model1b,rank="AIC"), subset = delta < 2)); summary(avg.model1b)
+avg.model1c <-model.avg(get.models(dredge(model1c,rank="AIC"), subset = delta < 2)); summary(avg.model1c)
+avg.model1d <-model.avg(get.models(dredge(model1d,rank="AIC"), subset = delta < 2)); summary(avg.model1d)
+avg.model1e <-model.avg(get.models(dredge(model1e,rank="AIC"), subset = delta < 2)); summary(avg.model1e)
+
+avg.model2a <-model.avg(get.models(dredge(model2a,rank="AIC"), subset = delta < 2)); summary(avg.model2a)
+avg.model2b <-model.avg(get.models(dredge(model2b,rank="AIC"), subset = delta < 2)); summary(avg.model2b)
+avg.model2c <-model.avg(get.models(dredge(model2c,rank="AIC"), subset = delta < 2)); summary(avg.model2c)
+avg.model2d <-model.avg(get.models(dredge(model2d,rank="AIC"), subset = delta < 2)); summary(avg.model2d)
+avg.model2e <-model.avg(get.models(dredge(model2e,rank="AIC"), subset = delta < 2)); summary(avg.model2e)
+
+avg.model3a <-model.avg(get.models(dredge(model3a,rank="AIC"), subset = delta < 2)); summary(avg.model3a)
+avg.model3b <-model.avg(get.models(dredge(model3b,rank="AIC"), subset = delta < 2)); summary(avg.model3b)
+avg.model3c <-model.avg(get.models(dredge(model3c,rank="AIC"), subset = delta < 2)); summary(avg.model3c)
+avg.model3d <-model.avg(get.models(dredge(model3d,rank="AIC"), subset = delta < 2)); summary(avg.model3d)
+avg.model3e <-model.avg(get.models(dredge(model3e,rank="AIC"), subset = delta < 2)); summary(avg.model3e)
+
+avg.model4a <-model.avg(get.models(dredge(model4a,rank="AIC"), subset = delta < 2)); summary(avg.model4a)
+avg.model4b <-model.avg(get.models(dredge(model4b,rank="AIC"), subset = delta < 2)); summary(avg.model4b)
+avg.model4c <-model.avg(get.models(dredge(model4c,rank="AIC"), subset = delta < 2)); summary(avg.model4c)
+avg.model4d <-model.avg(get.models(dredge(model4d,rank="AIC"), subset = delta < 2)); summary(avg.model4d)
+avg.model4e <-model.avg(get.models(dredge(model4e,rank="AIC"), subset = delta < 2)); summary(avg.model4e)
+
+avg.model5a <-model.avg(get.models(dredge(model5a,rank="AIC"), subset = delta < 2)); summary(avg.model5a)
+avg.model5b <-model.avg(get.models(dredge(model5b,rank="AIC"), subset = delta < 2)); summary(avg.model5b)
+avg.model5c <-model.avg(get.models(dredge(model5c,rank="AIC"), subset = delta < 2)); summary(avg.model5c)
+
+#-----------------------------------------------------------------------------------------
+
+# Calculating odds ratios and 95% confidence intervals
+avg.model1a_odds_full <- exp(coef(avg.model1a, full=TRUE)); avg.model1a_odds95_full <- exp(confint(avg.model1a, full=TRUE)); write.csv(list(avg.model1a_odds_full, avg.model1a_odds95_full), "avg.model1a_odds_full.csv")
+avg.model1b_odds_full <- exp(coef(avg.model1b, full=TRUE)); avg.model1b_odds95_full <- exp(confint(avg.model1b, full=TRUE)); write.csv(list(avg.model1b_odds_full, avg.model1b_odds95_full), "avg.model1b_odds_full.csv")
+avg.model1c_odds_full <- exp(coef(avg.model1c, full=TRUE)); avg.model1c_odds95_full <- exp(confint(avg.model1c, full=TRUE)); write.csv(list(avg.model1c_odds_full, avg.model1c_odds95_full), "avg.model1c_odds_full.csv")
+avg.model1d_odds_full <- exp(coef(avg.model1d, full=TRUE)); avg.model1d_odds95_full <- exp(confint(avg.model1d, full=TRUE)); write.csv(list(avg.model1d_odds_full, avg.model1d_odds95_full), "avg.model1d_odds_full.csv")
+avg.model1e_odds_full <- exp(coef(avg.model1e, full=TRUE)); avg.model1e_odds95_full <- exp(confint(avg.model1e, full=TRUE)); write.csv(list(avg.model1e_odds_full, avg.model1e_odds95_full), "avg.model1e_odds_full.csv")
+
+avg.model2a_odds_full <- exp(coef(avg.model2a, full=TRUE)); avg.model2a_odds95_full <- exp(confint(avg.model2a, full=TRUE)); write.csv(list(avg.model2a_odds_full, avg.model2a_odds95_full), "avg.model2a_odds_full.csv")
+avg.model2b_odds_full <- exp(coef(avg.model2b, full=TRUE)); avg.model2b_odds95_full <- exp(confint(avg.model2b, full=TRUE)); write.csv(list(avg.model2b_odds_full, avg.model2b_odds95_full), "avg.model2b_odds_full.csv")
+avg.model2c_odds_full <- exp(coef(avg.model2c, full=TRUE)); avg.model2c_odds95_full <- exp(confint(avg.model2c, full=TRUE)); write.csv(list(avg.model2c_odds_full, avg.model2c_odds95_full), "avg.model2c_odds_full.csv")
+avg.model2d_odds_full <- exp(coef(avg.model2d, full=TRUE)); avg.model2d_odds95_full <- exp(confint(avg.model2d, full=TRUE)); write.csv(list(avg.model2d_odds_full, avg.model2d_odds95_full), "avg.model2d_odds_full.csv")
+avg.model2e_odds_full <- exp(coef(avg.model2e, full=TRUE)); avg.model2e_odds95_full <- exp(confint(avg.model2e, full=TRUE)); write.csv(list(avg.model2e_odds_full, avg.model2e_odds95_full), "avg.model2e_odds_full.csv")
+
+avg.model3a_odds_full <- exp(coef(avg.model3a, full=TRUE)); avg.model3a_odds95_full <- exp(confint(avg.model3a, full=TRUE)); write.csv(list(avg.model3a_odds_full, avg.model3a_odds95_full), "avg.model3a_odds_full.csv")
+avg.model3b_odds_full <- exp(coef(avg.model3b, full=TRUE)); avg.model3b_odds95_full <- exp(confint(avg.model3b, full=TRUE)); write.csv(list(avg.model3b_odds_full, avg.model3b_odds95_full), "avg.model3b_odds_full.csv")
+avg.model3c_odds_full <- exp(coef(avg.model3c, full=TRUE)); avg.model3c_odds95_full <- exp(confint(avg.model3c, full=TRUE)); write.csv(list(avg.model3c_odds_full, avg.model3c_odds95_full), "avg.model3c_odds_full.csv")
+avg.model3d_odds_full <- exp(coef(avg.model3d, full=TRUE)); avg.model3d_odds95_full <- exp(confint(avg.model3d, full=TRUE)); write.csv(list(avg.model3d_odds_full, avg.model3d_odds95_full), "avg.model3d_odds_full.csv")
+avg.model3e_odds_full <- exp(coef(avg.model3e, full=TRUE)); avg.model3e_odds95_full <- exp(confint(avg.model3e, full=TRUE)); write.csv(list(avg.model3e_odds_full, avg.model3e_odds95_full), "avg.model3e_odds_full.csv")
+
+avg.model4a_odds_full <- exp(coef(avg.model4a, full=TRUE)); avg.model4a_odds95_full <- exp(confint(avg.model4a, full=TRUE)); write.csv(list(avg.model4a_odds_full, avg.model4a_odds95_full), "avg.model4a_odds_full.csv")
+avg.model4b_odds_full <- exp(coef(avg.model4b, full=TRUE)); avg.model4b_odds95_full <- exp(confint(avg.model4b, full=TRUE)); write.csv(list(avg.model4b_odds_full, avg.model4b_odds95_full), "avg.model4b_odds_full.csv")
+avg.model4c_odds_full <- exp(coef(avg.model4c, full=TRUE)); avg.model4c_odds95_full <- exp(confint(avg.model4c, full=TRUE)); write.csv(list(avg.model4c_odds_full, avg.model4c_odds95_full), "avg.model4c_odds_full.csv")
+avg.model4d_odds_full <- exp(coef(avg.model4d, full=TRUE)); avg.model4d_odds95_full <- exp(confint(avg.model4d, full=TRUE)); write.csv(list(avg.model4d_odds_full, avg.model4d_odds95_full), "avg.model4d_odds_full.csv")
+avg.model4e_odds_full <- exp(coef(avg.model4e, full=TRUE)); avg.model4e_odds95_full <- exp(confint(avg.model4e, full=TRUE)); write.csv(list(avg.model4e_odds_full, avg.model4e_odds95_full), "avg.model4e_odds_full.csv")
+
+avg.model5a_odds_full <- exp(coef(avg.model5a, full=TRUE)); avg.model5a_odds95_full <- exp(confint(avg.model5a, full=TRUE)); write.csv(list(avg.model5a_odds_full, avg.model5a_odds95_full), "avg.model5a_odds_full.csv")
+avg.model5b_odds_full <- exp(coef(avg.model5b, full=TRUE)); avg.model5b_odds95_full <- exp(confint(avg.model5b, full=TRUE)); write.csv(list(avg.model5b_odds_full, avg.model5b_odds95_full), "avg.model5b_odds_full.csv")
+avg.model5c_odds_full <- exp(coef(avg.model5c, full=TRUE)); avg.model5c_odds95_full <- exp(confint(avg.model5c, full=TRUE)); write.csv(list(avg.model5c_odds_full, avg.model5c_odds95_full), "avg.model5c_odds_full.csv")
+
+#-----------------------------------------------------------------------------------------
+
+# Drawing graph (Fig. 3)
+dat <- read.csv("...file path...", header=TRUE,sep = ","); dat$lag <- paste0("", dat$lag); Fig3_1 = ggplot(dat, aes(x = pollut, y = or, ymin = lcl, ymax = ucl)) + scale_y_continuous(limits = c(0.5, 4.5)) + geom_pointrange(aes(col = factor(lag), shape = factor(lag)), position=position_dodge(width=0.5), size = 1.5) + scale_shape_manual(values = c(19,17), name = "") + scale_color_manual(values = c("tomato2", "mediumaquamarine"), name = "")  + ylab("ORs & 95% CIs") + geom_hline(aes(yintercept = 1),  size = 0.5, linetype = "dashed") + xlab("")  + scale_x_discrete(limits=c("Greenway", "Large park" ,"Small park", "Farm stand","Home garden", "Allotment farm")) + theme(text = element_text(size = 28))  + theme(axis.title.x = element_text(size = 24)) + theme(legend.position="top") + ggtitle("Subjective well-being") + theme(plot.title=element_text(size=28, face = "bold")) + coord_flip(); print(Fig3_1)
+dat <- read.csv("...file path...", header=TRUE,sep = ","); dat$lag <- paste0("", dat$lag); Fig3_2 = ggplot(dat, aes(x = pollut, y = or, ymin = lcl, ymax = ucl)) + scale_y_continuous(limits = c(0.5, 4.5)) + geom_pointrange(aes(col = factor(lag), shape = factor(lag)), position=position_dodge(width=0.5), size = 1.5) + scale_shape_manual(values = c(19,17), name = "") + scale_color_manual(values = c("tomato2", "mediumaquamarine"), name = "")  + ylab("ORs & 95% CIs") + geom_hline(aes(yintercept = 1),  size = 0.5, linetype = "dashed") + xlab("")  + scale_x_discrete(limits=c("Greenway", "Large park" ,"Small park", "Farm stand","Home garden", "Allotment farm")) + theme(text = element_text(size = 28))  + theme(axis.title.x = element_text(size = 24)) + theme(legend.position="top") + ggtitle("Physical activity") + theme(plot.title=element_text(size=28, face = "bold")) + coord_flip(); print(Fig3_2)
+dat <- read.csv("...file path...", header=TRUE,sep = ","); dat$lag <- paste0("", dat$lag); Fig3_3 = ggplot(dat, aes(x = pollut, y = or, ymin = lcl, ymax = ucl)) + scale_y_continuous(limits = c(0.5, 4.5)) + geom_pointrange(aes(col = factor(lag), shape = factor(lag)), position=position_dodge(width=0.5), size = 1.5) + scale_shape_manual(values = c(19,15), name = "") + scale_color_manual(values = c("tomato2", "skyblue1"), name = "") + ylab("ORs & 95% CIs") + geom_hline(aes(yintercept = 1),  size = 0.5, linetype = "dashed") + xlab("")  + scale_x_discrete(limits=c("Co-op delivery", "Convenience store" ,"Grocery store", "Farm stand","Home garden", "Allotment farm")) + theme(text = element_text(size = 28))  + theme(axis.title.x = element_text(size = 24))  + theme(legend.position="top") + ggtitle("Food security concerns at present") + theme(plot.title=element_text(size=28, face = "bold")) + coord_flip(); print(Fig3_3)
+dat <- read.csv("...file path...", header=TRUE,sep = ","); dat$lag <- paste0("", dat$lag); Fig3_4 = ggplot(dat, aes(x = pollut, y = or, ymin = lcl, ymax = ucl)) + scale_y_continuous(limits = c(0.5, 4.5)) + geom_pointrange(aes(col = factor(lag), shape = factor(lag)), position=position_dodge(width=0.5), size = 1.5) + scale_shape_manual(values = c(19,15), name = "") + scale_color_manual(values = c("tomato2", "skyblue1"), name = "") + ylab("ORs & 95% CIs") + geom_hline(aes(yintercept = 1),  size = 0.5, linetype = "dashed") + xlab("")  + scale_x_discrete(limits=c("Co-op delivery", "Convenience store" ,"Grocery store", "Farm stand","Home garden", "Allotment farm")) + theme(text = element_text(size = 28))  + theme(axis.title.x = element_text(size = 24))  + theme(legend.position="top") + ggtitle("Food security concerns in the future") + theme(plot.title=element_text(size=28, face = "bold")) + coord_flip(); print(Fig3_4)
+
+ggarrange(Fig3_1, Fig3_2, Fig3_3, Fig3_4, align = "hv")
+
+#-----------------------------------------------------------------------------------------
+
+# Drawing graph (Fig. 4)
+dat <- read.csv("...file path...", header=TRUE,sep = ","); dat$lag <- paste0("", dat$lag); Fig4_1 = ggplot(dat, aes(x = pollut, y = or, ymin = lcl, ymax = ucl)) + scale_y_continuous(limits = c(0.5, 4.5)) + geom_pointrange(aes(col = factor(lag), shape = factor(lag)), position=position_dodge(width=0.5), size = 1.5)  + scale_shape_manual(values = c(5,4,12), name = "") + scale_color_manual(values = c("gray20", "gray40", "gray60"), name = "")  + ylab("ORs & 95% CIs") + geom_hline(aes(yintercept = 1),  size = 0.5, linetype = "dashed") + xlab("")  + scale_x_discrete(limits=c("Large park" , "Farm stand","Home garden", "Allotment farm")) + theme(text = element_text(size = 28))  + theme(axis.title.x = element_text(size = 24)) + theme(legend.position="top") + ggtitle("Subjective well-being") + theme(plot.title=element_text(size=28, face = "bold")) + coord_flip(); print(Fig4_1)
+dat <- read.csv("...file path...", header=TRUE,sep = ","); dat$lag <- paste0("", dat$lag); Fig4_2 = ggplot(dat, aes(x = pollut, y = or, ymin = lcl, ymax = ucl)) + scale_y_continuous(limits = c(0.5, 5.5)) + geom_pointrange(aes(col = factor(lag), shape = factor(lag)), position=position_dodge(width=0.5), size = 1.5) + scale_shape_manual(values = c(5,4,12), name = "") + scale_color_manual(values = c("gray20", "gray40", "gray60"), name = "")  + ylab("ORs & 95% CIs") + geom_hline(aes(yintercept = 1),  size = 0.5, linetype = "dashed") + xlab("")  + scale_x_discrete(limits=c("Greenway", "Farm stand","Home garden", "Allotment farm")) + theme(text = element_text(size = 28))  + theme(axis.title.x = element_text(size = 24)) + theme(legend.position="top") + ggtitle("Physical activity") + theme(plot.title=element_text(size=28, face = "bold")) + coord_flip(); print(Fig4_2)
+dat <- read.csv("...file path...", header=TRUE,sep = ","); dat$lag <- paste0("", dat$lag); Fig4_3 = ggplot(dat, aes(x = pollut, y = or, ymin = lcl, ymax = ucl)) + scale_y_continuous(limits = c(0.5, 4.5)) + geom_pointrange(aes(col = factor(lag), shape = factor(lag)), position=position_dodge(width=0.5), size = 1.5) + scale_shape_manual(values = c(5,4,12), name = "") + scale_color_manual(values = c("gray20", "gray40", "gray60"), name = "")  + ylab("ORs & 95% CIs") + geom_hline(aes(yintercept = 1),  size = 0.5, linetype = "dashed") + xlab("")  + scale_x_discrete(limits=c("Grocery store", "Farm stand","Home garden", "Allotment farm")) + theme(text = element_text(size = 28))  + theme(axis.title.x = element_text(size = 24)) + theme(legend.position="top") + ggtitle("Food security concerns at present") + theme(plot.title=element_text(size=28, face = "bold")) + coord_flip(); print(Fig4_3)
+dat <- read.csv("...file path...", header=TRUE,sep = ","); dat$lag <- paste0("", dat$lag); Fig4_4 = ggplot(dat, aes(x = pollut, y = or, ymin = lcl, ymax = ucl)) + scale_y_continuous(limits = c(0.5, 5.5)) + geom_pointrange(aes(col = factor(lag), shape = factor(lag)), position=position_dodge(width=0.5), size = 1.5) + scale_shape_manual(values = c(5,4,12), name = "") + scale_color_manual(values = c("gray20", "gray40", "gray60"), name = "")  + ylab("ORs & 95% CIs") + geom_hline(aes(yintercept = 1),  size = 0.5, linetype = "dashed") + xlab("")  + scale_x_discrete(limits=c("Convenience store", "Farm stand","Home garden", "Allotment farm")) + theme(text = element_text(size = 28))  + theme(axis.title.x = element_text(size = 24)) + theme(legend.position="top") + ggtitle("Food security concerns in the future") + theme(plot.title=element_text(size=28, face = "bold")) + coord_flip(); print(Fig4_4)
+
+ggarrange(Fig4_1, Fig4_2, Fig4_3, Fig4_4, align = "hv")
