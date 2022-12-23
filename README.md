@@ -1,6 +1,6 @@
-# Urban agriculture sustains health and well-being of neighborhood communities in the context of the COVID-19 outbreak
+# Urban agriculture in walkable neighborhoods fruited health and food system resilience during the COVID-19 pandemic
 
-This repository is created to provide publicly available R code with regards to the manuscript called 'Urban agriculture sustains health and well-being of neighborhood communities in the context of the COVID-19 outbreak'. 
+This repository is created to provide publicly available R code with regards to the manuscript called 'Urban agriculture in walkable neighborhoods fruited health and food system resilience during the COVID-19 pandemic'. 
 
 [doi:](https://doi.org/)
 
